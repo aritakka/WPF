@@ -12,14 +12,22 @@ namespace ClothingStoreNew
     using System;
     using System.Collections.Generic;
     
-    public partial class CartItems
+    public partial class Customers
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Customers()
+        {
+            this.Orders = new HashSet<Orders>();
+        }
+    
         public int Id { get; set; }
-        public int ProductId { get; set; }
-        public int Quantity { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
         public int UserId { get; set; }
     
-        public virtual Products Products { get; set; }
         public virtual Users Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Orders> Orders { get; set; }
     }
 }

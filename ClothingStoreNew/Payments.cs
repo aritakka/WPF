@@ -12,18 +12,15 @@ namespace ClothingStoreNew
     using System;
     using System.Collections.Generic;
     
-    public partial class Brands
+    public partial class Payments
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Brands()
-        {
-            this.Products = new HashSet<Products>();
-        }
-    
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int OrderId { get; set; }
+        public System.DateTime PaymentDate { get; set; }
+        public decimal Amount { get; set; }
+        public string PaymentMethod { get; set; }
+        public string Status { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Products> Products { get; set; }
+        public virtual Orders Orders { get; set; }
     }
 }

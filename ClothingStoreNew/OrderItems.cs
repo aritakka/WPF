@@ -19,8 +19,10 @@ namespace ClothingStoreNew
         public int ProductId { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
+        public Nullable<int> ProductId1 { get; set; }
     
         public virtual Orders Orders { get; set; }
         public virtual Products Products { get; set; }
+        public virtual Products Products1 { get; set; }
     }
 }

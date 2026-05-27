@@ -13,10 +13,10 @@ namespace ClothingStoreNew
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class OnlineStoreDbEntities1 : DbContext
+    public partial class Store123Entities : DbContext
     {
-        public OnlineStoreDbEntities1()
-            : base("name=OnlineStoreDbEntities1")
+        public Store123Entities()
+            : base("name=Store123Entities")
         {
         }
     
@@ -26,13 +26,16 @@ namespace ClothingStoreNew
         }
     
         public virtual DbSet<C__EFMigrationsHistory> C__EFMigrationsHistory { get; set; }
-        public virtual DbSet<Brands> Brands { get; set; }
-        public virtual DbSet<CartItems> CartItems { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<Customers> Customers { get; set; }
         public virtual DbSet<OrderItems> OrderItems { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<Payments> Payments { get; set; }
         public virtual DbSet<Products> Products { get; set; }
-        public virtual DbSet<Reviews> Reviews { get; set; }
+        public virtual DbSet<ProductSuppliers> ProductSuppliers { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<Suppliers> Suppliers { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Users> Users { get; set; }
     }
 }

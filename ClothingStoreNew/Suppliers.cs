@@ -12,28 +12,18 @@ namespace ClothingStoreNew
     using System;
     using System.Collections.Generic;
     
-    public partial class Products
+    public partial class Suppliers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Products()
+        public Suppliers()
         {
-            this.OrderItems = new HashSet<OrderItems>();
-            this.OrderItems1 = new HashSet<OrderItems>();
             this.ProductSuppliers = new HashSet<ProductSuppliers>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public decimal Price { get; set; }
-        public int Quantity { get; set; }
-        public int CategoryId { get; set; }
-        public string Description { get; set; }
+        public string ContactInfo { get; set; }
     
-        public virtual Categories Categories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderItems> OrderItems { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderItems> OrderItems1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductSuppliers> ProductSuppliers { get; set; }
     }

@@ -18,15 +18,19 @@ namespace ClothingStoreNew
         public Orders()
         {
             this.OrderItems = new HashSet<OrderItems>();
+            this.Payments = new HashSet<Payments>();
         }
     
         public int Id { get; set; }
-        public int UserId { get; set; }
-        public System.DateTime CreatedAt { get; set; }
+        public System.DateTime OrderDate { get; set; }
+        public int CustomerId { get; set; }
+        public decimal TotalAmount { get; set; }
         public string Status { get; set; }
     
+        public virtual Customers Customers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItems> OrderItems { get; set; }
-        public virtual Users Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Payments> Payments { get; set; }
     }
 }

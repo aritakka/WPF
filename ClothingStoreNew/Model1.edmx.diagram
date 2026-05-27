@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7da84a66c00546adb3f92250e836c01d" Name="Diagram1">
+        <EntityTypeShape EntityType="Store123Model.C__EFMigrationsHistory" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Store123Model.Categories" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="Store123Model.Customers" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Store123Model.OrderItems" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Store123Model.Orders" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Store123Model.Payments" Width="1.5" PointX="5.25" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Store123Model.Products" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Store123Model.ProductSuppliers" Width="1.5" PointX="8.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Store123Model.Roles" Width="1.5" PointX="1.5" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="Store123Model.Suppliers" Width="1.5" PointX="6" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="Store123Model.sysdiagrams" Width="1.5" PointX="8.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Store123Model.Users" Width="1.5" PointX="1.5" PointY="11.625" IsExpanded="true" />
+        <AssociationConnector Association="Store123Model.FK_Products_Categories_CategoryId" ManuallyRouted="false" />
+        <AssociationConnector Association="Store123Model.FK_Customers_Users_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="Store123Model.FK_Orders_Customers_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="Store123Model.FK_OrderItems_Orders_OrderId" ManuallyRouted="false" />
+        <AssociationConnector Association="Store123Model.FK_OrderItems_Products_ProductId" ManuallyRouted="false" />
+        <AssociationConnector Association="Store123Model.FK_OrderItems_Products_ProductId1" ManuallyRouted="false" />
+        <AssociationConnector Association="Store123Model.FK_Payments_Orders_OrderId" ManuallyRouted="false" />
+        <AssociationConnector Association="Store123Model.FK_ProductSuppliers_Products_ProductId" ManuallyRouted="false" />
+        <AssociationConnector Association="Store123Model.FK_ProductSuppliers_Suppliers_SupplierId" ManuallyRouted="false" />
+        <AssociationConnector Association="Store123Model.FK_Users_Roles_RoleId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

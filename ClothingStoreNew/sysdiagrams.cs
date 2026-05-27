@@ -12,16 +12,12 @@ namespace ClothingStoreNew
     using System;
     using System.Collections.Generic;
     
-    public partial class Reviews
+    public partial class sysdiagrams
     {
-        public int Id { get; set; }
-        public int ProductId { get; set; }
-        public int UserId { get; set; }
-        public int Rating { get; set; }
-        public string Comment { get; set; }
-        public System.DateTime CreatedAt { get; set; }
-    
-        public virtual Products Products { get; set; }
-        public virtual Users Users { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
