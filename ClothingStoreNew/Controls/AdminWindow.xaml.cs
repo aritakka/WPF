@@ -1,6 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,58 +6,60 @@ namespace ClothingStoreNew
 {
     public partial class AdminWindow : Window
     {
-        private string selectedImagePath;
-
         public AdminWindow()
         {
             InitializeComponent();
+
             LoadData();
         }
 
-        // ================= LOAD =================
         private void LoadData()
         {
-            using (var db = new OnlineStoreDbEntities1())
+            using (var db = new Store123Entities())
             {
-                ProductsGrid.ItemsSource = db.Products.ToList();
-                UsersGrid.ItemsSource = db.Users.ToList();
-                OrdersGrid.ItemsSource = db.Orders.ToList();
+                ProductsGrid.ItemsSource =
+                    db.Products.ToList();
 
-                CategoryBox.ItemsSource = db.Categories.ToList();
-                BrandBox.ItemsSource = db.Brands.ToList();
+                UsersGrid.ItemsSource =
+                    db.Users.ToList();
+
+                OrdersGrid.ItemsSource =
+                    db.Orders.ToList();
+
+                CategoryBox.ItemsSource =
+                    db.Categories.ToList();
             }
         }
 
-        // ================= IMAGE =================
-        private void SelectImage_Click(object sender, RoutedEventArgs e)
+        private void AddProduct(
+            object sender,
+            RoutedEventArgs e)
         {
-            var dlg = new OpenFileDialog
+            using (var db = new Store123Entities())
             {
-                Filter = "Images|*.jpg;*.png;*.jpeg"
-            };
+                Products product = new Products();
 
-            if (dlg.ShowDialog() == true)
-            {
-                selectedImagePath = dlg.FileName;
-                ImagePathText.Text = selectedImagePath;
-            }
-        }
+                product.Name = NameBox.Text;
 
-        // ================= PRODUCTS =================
-        private void AddProduct(object sender, RoutedEventArgs e)
-        {
-            using (var db = new OnlineStoreDbEntities1())
-            {
-                db.Products.Add(new Products
+                product.Price =
+                    decimal.Parse(PriceBox.Text);
+
+                product.Description =
+                    DescriptionBox.Text;
+
+                product.Quantity = 1;
+
+                Categories category =
+                    CategoryBox.SelectedItem
+                    as Categories;
+
+                if (category != null)
                 {
-                    Name = NameBox.Text,
-                    Price = decimal.Parse(PriceBox.Text),
-                    Description = DescriptionBox.Text,
-                    Stock = int.Parse(StockBox.Text),
-                    ImagePath = selectedImagePath,
-                    CategoryId = (CategoryBox.SelectedItem as Categories)?.Id ?? 0,
-                    BrandId = (BrandBox.SelectedItem as Brands)?.Id ?? 0
-                });
+                    product.CategoryId =
+                        category.Id;
+                }
+
+                db.Products.Add(product);
 
                 db.SaveChanges();
             }
@@ -67,20 +67,31 @@ namespace ClothingStoreNew
             LoadData();
         }
 
-        private void UpdateProduct(object sender, RoutedEventArgs e)
+        private void UpdateProduct(
+            object sender,
+            RoutedEventArgs e)
         {
-            var selected = ProductsGrid.SelectedItem as Products;
-            if (selected == null) return;
+            Products selected =
+                ProductsGrid.SelectedItem
+                as Products;
 
-            using (var db = new OnlineStoreDbEntities1())
+            if (selected == null)
+                return;
+
+            using (var db = new Store123Entities())
             {
-                var p = db.Products.First(x => x.Id == selected.Id);
+                Products product =
+                    db.Products.First(
+                        x => x.Id == selected.Id);
 
-                p.Name = NameBox.Text;
-                p.Price = decimal.Parse(PriceBox.Text);
-                p.Description = DescriptionBox.Text;
-                p.Stock = int.Parse(StockBox.Text);
-                p.ImagePath = selectedImagePath;
+                product.Name =
+                    NameBox.Text;
+
+                product.Price =
+                    decimal.Parse(PriceBox.Text);
+
+                product.Description =
+                    DescriptionBox.Text;
 
                 db.SaveChanges();
             }
@@ -88,43 +99,24 @@ namespace ClothingStoreNew
             LoadData();
         }
 
-        private void DeleteProduct(object sender, RoutedEventArgs e)
+        private void DeleteProduct(
+            object sender,
+            RoutedEventArgs e)
         {
-            var selected = ProductsGrid.SelectedItem as Products;
-            if (selected == null) return;
+            Products selected =
+                ProductsGrid.SelectedItem
+                as Products;
 
-            using (var db = new OnlineStoreDbEntities1())
+            if (selected == null)
+                return;
+
+            using (var db = new Store123Entities())
             {
-                db.Products.Remove(db.Products.First(x => x.Id == selected.Id));
-                db.SaveChanges();
-            }
+                Products product =
+                    db.Products.First(
+                        x => x.Id == selected.Id);
 
-            LoadData();
-        }
-
-        private void ProductsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var p = ProductsGrid.SelectedItem as Products;
-            if (p == null) return;
-
-            NameBox.Text = p.Name;
-            PriceBox.Text = p.Price.ToString();
-            DescriptionBox.Text = p.Description;
-            StockBox.Text = p.Stock.ToString();
-        }
-
-        // ================= USERS =================
-        private void AddUser(object sender, RoutedEventArgs e)
-        {
-            using (var db = new OnlineStoreDbEntities1())
-            {
-                db.Users.Add(new Users
-                {
-                    Email = NewEmailBox.Text,
-                    FullName = NewNameBox.Text,
-                    PasswordHash = NewPasswordBox.Text,
-                    Role = "User"
-                });
+                db.Products.Remove(product);
 
                 db.SaveChanges();
             }
@@ -132,69 +124,25 @@ namespace ClothingStoreNew
             LoadData();
         }
 
-        private void ChangeRole(object sender, RoutedEventArgs e)
+        private void ProductsGrid_SelectionChanged(
+            object sender,
+            SelectionChangedEventArgs e)
         {
-            var u = UsersGrid.SelectedItem as Users;
-            if (u == null) return;
+            Products product =
+                ProductsGrid.SelectedItem
+                as Products;
 
-            using (var db = new OnlineStoreDbEntities1())
-            {
-                var user = db.Users.First(x => x.Id == u.Id);
-                user.Role = ((ComboBoxItem)RoleBox.SelectedItem).Content.ToString();
-                db.SaveChanges();
-            }
+            if (product == null)
+                return;
 
-            LoadData();
-        }
+            NameBox.Text =
+                product.Name;
 
-        private void DeleteUser(object sender, RoutedEventArgs e)
-        {
-            var u = UsersGrid.SelectedItem as Users;
-            if (u == null) return;
+            PriceBox.Text =
+                product.Price.ToString();
 
-            using (var db = new OnlineStoreDbEntities1())
-            {
-                db.Users.Remove(db.Users.First(x => x.Id == u.Id));
-                db.SaveChanges();
-            }
-
-            LoadData();
-        }
-
-        // ================= ORDERS =================
-        private void OrdersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var o = OrdersGrid.SelectedItem as Orders;
-            if (o == null) return;
-
-            using (var db = new OnlineStoreDbEntities1())
-            {
-                var items = db.OrderItems
-                    .Where(x => x.OrderId == o.Id)
-                    .Select(x => new
-                    {
-                        x.Products.Name,
-                        x.Quantity,
-                        x.Price
-                    }).ToList();
-
-                OrderItemsGrid.ItemsSource = items;
-            }
-        }
-
-        private void UpdateOrderStatus(object sender, RoutedEventArgs e)
-        {
-            var o = OrdersGrid.SelectedItem as Orders;
-            if (o == null) return;
-
-            using (var db = new OnlineStoreDbEntities1())
-            {
-                var order = db.Orders.First(x => x.Id == o.Id);
-                order.Status = ((ComboBoxItem)OrderStatusBox.SelectedItem).Content.ToString();
-                db.SaveChanges();
-            }
-
-            LoadData();
+            DescriptionBox.Text =
+                product.Description;
         }
     }
 }

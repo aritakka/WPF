@@ -11,6 +11,7 @@ namespace ClothingStoreNew
         public CartWindow()
         {
             InitializeComponent();
+
             LoadCart();
         }
 
@@ -33,9 +34,13 @@ namespace ClothingStoreNew
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            var item = (CartItem)((FrameworkElement)sender).Tag;
+            CartItem item = ((FrameworkElement)sender).Tag as CartItem;
 
-            var existing = CartManager.Items.FirstOrDefault(x => x.ProductId == item.ProductId);
+            if (item == null)
+                return;
+
+            CartItems existing =
+                CartManager.Items.FirstOrDefault(x => x.ProductId == item.ProductId);
 
             if (existing != null)
             {
@@ -48,43 +53,37 @@ namespace ClothingStoreNew
             LoadCart();
         }
 
-        // =================🔥 UPDATED =================
         private void Checkout_Click(object sender, RoutedEventArgs e)
         {
             if (!CartManager.Items.Any())
                 return;
 
-            // ❗ вместо сразу оформления — открываем оплату
-            var payment = new PaymentWindow();
-            bool? result = payment.ShowDialog();
-
-            // если пользователь закрыл окно оплаты — ничего не делаем
-            if (result != true)
-                return;
-
-            using (var db = new OnlineStoreDbEntities1())
+            using (var db = new Store123Entities())
             {
-                var order = new Orders
-                {
-                    UserId = App.CurrentUser.Id,
-                    Status = "Оплачен",
-                    CreatedAt = DateTime.Now
-                };
+                Orders order = new Orders();
+
+                order.CustomerId = 1;
+                order.OrderDate = DateTime.Now;
+                order.TotalAmount = 0;
+                order.Status = "Оплачен";
 
                 db.Orders.Add(order);
+
                 db.SaveChanges();
 
                 foreach (var item in CartManager.Items)
                 {
-                    var product = db.Products.First(p => p.Id == item.ProductId);
+                    Products product =
+                        db.Products.First(p => p.Id == item.ProductId);
 
-                    db.OrderItems.Add(new OrderItems
-                    {
-                        OrderId = order.Id,
-                        ProductId = product.Id,
-                        Quantity = item.Quantity,
-                        Price = product.Price
-                    });
+                    OrderItems orderItem = new OrderItems();
+
+                    orderItem.OrderId = order.Id;
+                    orderItem.ProductId = product.Id;
+                    orderItem.Quantity = item.Quantity;
+                    orderItem.Price = product.Price;
+
+                    db.OrderItems.Add(orderItem);
                 }
 
                 db.SaveChanges();
@@ -92,7 +91,7 @@ namespace ClothingStoreNew
 
             CartManager.Items.Clear();
 
-            MessageBox.Show("Оплата прошла успешно! Заказ оформлен.");
+            MessageBox.Show("Заказ успешно оформлен");
 
             Close();
         }

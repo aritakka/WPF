@@ -6,7 +6,7 @@ namespace ClothingStoreNew.Services
     {
         public Users Login(string email, string password)
         {
-            using (var db = new OnlineStoreDbEntities1())
+            using (var db = new Store123Entities())
             {
                 return db.Users.FirstOrDefault(u =>
                     u.Email == email &&
@@ -14,24 +14,24 @@ namespace ClothingStoreNew.Services
             }
         }
 
-        public bool Register(string email, string password, string fullName)
+        public bool Register(string email, string password, string userName)
         {
-            using (var db = new OnlineStoreDbEntities1())
+            using (var db = new Store123Entities())
             {
-                var exists = db.Users.Any(u => u.Email == email);
+                bool exists = db.Users.Any(u => u.Email == email);
 
                 if (exists)
                     return false;
 
-                var user = new Users
-                {
-                    Email = email,
-                    PasswordHash = password,
-                    FullName = fullName,
-                    Role = "User"
-                };
+                Users user = new Users();
+
+                user.Email = email;
+                user.PasswordHash = password;
+                user.UserName = userName;
+                user.RoleId = 1;
 
                 db.Users.Add(user);
+
                 db.SaveChanges();
 
                 return true;

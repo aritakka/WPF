@@ -6,7 +6,7 @@ namespace ClothingStoreNew
     {
         public void Check()
         {
-            using (var db = new OnlineStoreDbEntities1())
+            using (var db = new Store123Entities())
             {
                 var users = db.Users.ToList();
             }

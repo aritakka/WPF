@@ -27,7 +27,7 @@ namespace ClothingStoreNew.Services
 
         public static List<(Products product, int qty)> GetFullCart()
         {
-            using (var db = new OnlineStoreDbEntities1())
+            using (var db = new Store123Entities())
             {
                 return Items
                     .Select(i => (
